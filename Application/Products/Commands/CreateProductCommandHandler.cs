@@ -1,5 +1,5 @@
-﻿using Application.Products.Interfaces;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Infrastructure.Persistence;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace Application.Products.Commands
 {
-    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, int>
+    public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Product>
     {
-        private readonly IProductService _productService;
+        private readonly AppDbContext _context;
 
-        public CreateProductCommandHandler(IProductService productService)
+        public CreateProductCommandHandler(AppDbContext context)
         {
-            _productService = productService;
+            _context = context;
         }
 
-        public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<Product> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
             var product = new Product
             {
@@ -28,9 +28,10 @@ namespace Application.Products.Commands
             };
 
             // Appelez le service d'application pour créer le produit
-            int productId = await _productService.CreateProductAsync(product);
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync(cancellationToken);
 
-            return productId;
+            return product;
         }
     }
 }

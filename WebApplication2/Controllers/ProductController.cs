@@ -1,5 +1,5 @@
 ﻿using Application.Products.Commands;
-using Application.Products.Interfaces;
+using Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +17,10 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public async Task<int> CreateProduct([FromBody] CreateProductCommand command)
+        public async Task<Product> CreateProduct([FromBody] CreateProductCommand command)
         {
-            var productId = await _mediator.Send(command);
-            // Gérez la réponse (par exemple, renvoyez un code de statut 201 Created avec l'ID du produit créé)
-            return productId;
+            var product = await _mediator.Send(command);
+            return product;
         }
 
     }

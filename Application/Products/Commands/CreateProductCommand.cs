@@ -1,4 +1,4 @@
-﻿using Application.Products.Interfaces;
+﻿using Domain.Entities;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Products.Commands
 {
-    public class CreateProductCommand : IRequest<int>
+    public class CreateProductCommand : IRequest<Product>
     {
         public string Name { get; set; }
         public int Price { get; set; }

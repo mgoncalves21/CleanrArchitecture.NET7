@@ -1,5 +1,4 @@
 using Application.Products.Commands;
-using Application.Products.Interfaces;
 using Application;
 using System.Reflection;
 using Infrastructure.Persistence;
@@ -14,13 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplicationServices();
-builder.Services.AddScoped<IProductService, ProductAppService>();
 builder.Services.AddEndpointsApiExplorer();
-
-
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-           options.UseSqlServer(builder.Configuration.GetConnectionString("localDb")));
 
 
 var app = builder.Build();
